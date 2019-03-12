@@ -1,0 +1,51 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: unifi-control
+  labels:
+    app: unifi-control
+spec:
+  selector:
+    matchLabels:
+      app: unifi-control
+  template:
+    metadata:
+      labels:
+        app: unifi-control
+        name: unifi
+    spec:
+      containers:
+      - image: jacobalberty/unifi
+        name: unifi-control
+      env:
+      - name: DB_URI
+        value: "mongodb://mongodb.unifi/unifi"
+      - name: STATDB_URI
+        value: "mongodb://mongodb.unifi/unifi_stat"
+      - name: DB_NAME
+        value: "unifi"
+      hostname: controller
+      subdomain: unifi
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: unifi-mongodb
+  labels:
+    app: unifi-mongodb
+spec:
+  selector:
+    matchLabels:
+      app: unifi-mongodb
+  template:
+    metadata:
+      labels:
+        app: unifi-mongodb
+        name: unifi
+    spec:
+      containers:
+      - image: mongo:3.4
+        name: unifi-mongodb
+      hostname: mongodb
+      subdomain: unifi
+      # Missing a db volume /data/db
