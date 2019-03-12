@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bungeecord
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bungeecord
+  template:
+    metadata:
+      labels:
+        app: bungeecord
+        name: minecraft
+    spec:
+      hostname: bungeecord
+      subdomain: minecraft
+      containers:
+        - name: bungeecord
+          image: itzg/bungeecord
+          env:
+          - name: MEMORY
+            value: "512m"
+          ports:
+            - name: minecraft
+              containerPort: 25577
+          volumeMounts:
+          - mountPath: "/config"
+            name: bungeecord-volume
+      volumes:
+      - name: bungeecord-volume
+        persistentVolumeClaim:
+          claimName: bungeecord

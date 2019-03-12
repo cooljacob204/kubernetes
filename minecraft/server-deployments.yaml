@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vanilla
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vanilla
+  template:
+    metadata:
+      labels:
+        app: vanilla
+        name: minecraft
+    spec:
+      hostname: vanilla
+      subdomain: minecraft
+      containers:
+        - name: vanilla
+          image: itzg/minecraft-server
+          env:
+          - name: ONLINE_MODE
+            value: "false"
+          - name: MEMORY
+            value: "512M"
+          - name: EULA
+            value: "true"
+          resources:
+            limits:
+              memory: 1536Mi
+          volumeMounts:
+          - mountPath: "/data"
+            name: vanilla-volume
+          ports:
+            - name: minecraft
+              containerPort: 25565
+      volumes:
+      - name: vanilla-volume
+        persistentVolumeClaim:
+          claimName: vanilla

@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: bungee
+spec:
+  selector:
+    app: bungee
+  ports:
+  - protocol: TCP
+    port: 25565
+    targetPort: 25577
