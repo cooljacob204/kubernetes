@@ -46,6 +46,12 @@ spec:
       containers:
       - image: mongo:3.4
         name: unifi-mongodb
+        volumeMounts:
+          - mountPath: "/data/db"
+            name: unifi-volume
       hostname: mongodb
       subdomain: unifi
-      # Missing a db volume /data/db
+      volumes:
+      - name: unifi-volume
+        persistentVolumeClaim:
+          claimName: unifi
