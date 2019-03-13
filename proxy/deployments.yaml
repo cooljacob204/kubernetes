@@ -1,0 +1,22 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: haproxy
+  labels:
+    app: haproxy
+spec:
+  selector:
+    matchLabels:
+      app: haproxy
+  template:
+    metadata:
+      labels:
+        app: haproxy
+        name: haproxy
+    spec:
+      nodeSelector:
+        tier: s10
+      containers:
+      - image: cooljacob204/haproxy
+        name: haproxy
+      hostname: haproxy
