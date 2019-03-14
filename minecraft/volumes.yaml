@@ -33,3 +33,15 @@ spec:
     requests:
       storage: 20Gi
   storageClassName: do-block-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ftb-infinity
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: do-block-storage

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ftb-infinity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ftb-infinity
+  template:
+    metadata:
+      labels:
+        app: ftb-infinity
+        name: minecraft
+    spec:
+      hostname: ftb-infinity
+      subdomain: minecraft
+      containers:
+        - name: ftb-infinity
+          image: itzg/minecraft-server
+          env:
+          - name: MEMORY
+            value: "4096M"
+          - name: EULA
+            value: "true"
+          - name: TYPE
+            value: "FTB"
+          - name: FTB_SERVER_MOD
+            value: "https://www.feed-the-beast.com/projects/ftb-infinity-evolved/files/2484486"
+          volumeMounts:
+          - mountPath: "/data"
+            name: ftb-infinity-volume
+          ports:
+            - name: minecraft
+              containerPort: 25565
+      volumes:
+      - name: ftb-infinity-volume
+        persistentVolumeClaim:
+          claimName: ftb-infinity
