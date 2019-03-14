@@ -15,7 +15,7 @@ spec:
         name: haproxy
     spec:
       nodeSelector:
-        tier: s10
+        tier: co80
       containers:
       - image: cooljacob204/haproxy
         name: haproxy
