@@ -14,16 +14,18 @@ spec:
         app: unifi-control
         name: unifi
     spec:
+      nodeSelector:
+        tier: s10
       containers:
       - image: jacobalberty/unifi
         name: unifi-control
-      env:
-      - name: DB_URI
-        value: "mongodb://mongodb.unifi/unifi"
-      - name: STATDB_URI
-        value: "mongodb://mongodb.unifi/unifi_stat"
-      - name: DB_NAME
-        value: "unifi"
+        env:
+        - name: DB_URI
+          value: "mongodb://mongodb.unifi/unifi"
+        - name: STATDB_URI
+          value: "mongodb://mongodb.unifi/unifi_stat"
+        - name: DB_NAME
+          value: "unifi"
       hostname: controller
       subdomain: unifi
 ---
@@ -43,9 +45,17 @@ spec:
         app: unifi-mongodb
         name: unifi
     spec:
+      nodeSelector:
+        tier: s10
       containers:
       - image: mongo:3.4
         name: unifi-mongodb
+        volumeMounts:
+          - mountPath: "/data/db"
+            name: unifi-volume
       hostname: mongodb
       subdomain: unifi
-      # Missing a db volume /data/db
+      volumes:
+      - name: unifi-volume
+        persistentVolumeClaim:
+          claimName: unifi
