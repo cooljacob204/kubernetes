@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skyblock
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skyblock
+  template:
+    metadata:
+      labels:
+        app: skyblock
+        name: minecraft
+    spec:
+      hostname: skyblock
+      subdomain: minecraft
+      containers:
+        - name: skyblock
+          image: itzg/minecraft-server
+          env:
+          - name: MEMORY
+            value: "4096M"
+          - name: EULA
+            value: "true"
+          - name: TYPE
+            value: "FTB"
+          - name: FTB_SERVER_MOD
+            value: "https://www.feed-the-beast.com/projects/ftb-sky-odyssey/files/2688904"
+          volumeMounts:
+          - mountPath: "/data"
+            name: skyblock-volume
+          ports:
+            - name: minecraft
+              containerPort: 25565
+      volumes:
+      - name: skyblock-volume
+        persistentVolumeClaim:
+          claimName: skyblock
