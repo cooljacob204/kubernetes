@@ -4,7 +4,7 @@ metadata:
   name: haproxy-loadbalancer
 spec:
   selector:
-      app: haproxy
+    app: haproxy
   type: LoadBalancer
   ports:
     - protocol: TCP
@@ -27,10 +27,6 @@ spec:
       port: 8443
       targetPort: 8443
       name: unifi-https
-    - protocol: TCP
-      port: 54321
-      targetPort: 54321
-      name: lets-encrypt
     - protocol: TCP
       port: 8880
       targetPort: 8880

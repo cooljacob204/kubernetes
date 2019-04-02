@@ -1,12 +1,3 @@
 #!/bin/bash
 
-if [ ! -e ~/.ssh/authorized_keys ]; then
-  mkdir ~/.ssh/
-  touch ~/.ssh/authorized_keys
-fi
-
-echo $SSH_CERT > ~/.ssh/authorized_keys
-
-service ssh start
-
 service rsyslog start && haproxy -f /etc/haproxy/haproxy.cfg && tail -F /var/log/haproxy.log

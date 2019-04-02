@@ -19,4 +19,10 @@ spec:
       containers:
       - image: cooljacob204/haproxy
         name: haproxy
+        volumeMounts:
+          - mountPath: "/etc/letsencrypt"
+            name: certbot
       hostname: haproxy
+      - name: certbot
+        persistentVolumeClaim:
+          claimName: certbot
