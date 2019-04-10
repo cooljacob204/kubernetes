@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: fanout-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: lfp2-ip
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
+  labels:
+    app: lfp2
+spec:
+  tls:
+  - secretName: guest-portal-lfp2-gg-tls
+    hosts:
+    - guest-portal.lfp2.gg
+  rules:
+  - host: guest-portal.lfp2.gg
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: webapp
+          servicePort: 80
