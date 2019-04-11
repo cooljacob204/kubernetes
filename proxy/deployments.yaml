@@ -14,15 +14,14 @@ spec:
         app: haproxy
         name: haproxy
     spec:
-      nodeSelector:
-        tier: co80
+      hostname: haproxy
       containers:
       - image: cooljacob204/haproxy
         name: haproxy
         volumeMounts:
           - mountPath: "/etc/letsencrypt"
             name: certbot
-      hostname: haproxy
+      volumes:
       - name: certbot
         persistentVolumeClaim:
           claimName: certbot

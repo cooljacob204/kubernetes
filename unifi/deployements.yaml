@@ -14,8 +14,6 @@ spec:
         app: unifi-control
         name: unifi
     spec:
-      nodeSelector:
-        tier: s10
       containers:
       - image: jacobalberty/unifi
         name: unifi-control
@@ -45,8 +43,6 @@ spec:
         app: unifi-mongodb
         name: unifi
     spec:
-      nodeSelector:
-        tier: s10
       containers:
       - image: mongo:3.4
         name: unifi-mongodb
