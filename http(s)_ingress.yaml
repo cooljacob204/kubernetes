@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: fanout-ingress
+  name: lfp2-ingress
   annotations:
     kubernetes.io/ingress.global-static-ip-name: lfp2-ip
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
@@ -13,11 +13,31 @@ spec:
   - secretName: guest-portal-lfp2-gg-tls
     hosts:
     - guest-portal.lfp2.gg
+  - secretName: videogame-tracker-lfp2-gg-tls
+    hosts:
+    - videogame-tracker.lfp2.gg
+  - secretName: jenkins-lfp2-gg
+    hosts:
+    - jenkins.lfp2.gg
   rules:
   - host: guest-portal.lfp2.gg
     http:
       paths:
       - path: /*
         backend:
-          serviceName: webapp
+          serviceName: videogame-tracker
+          servicePort: 80
+  - host: videogame-tracker.lfp2.gg
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: videogame-tracker
+          servicePort: 80
+  - host: jenkins.lfp2.gg
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: jenkins
           servicePort: 80
