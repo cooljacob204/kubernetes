@@ -33,11 +33,22 @@ spec:
           value: "True"
         - name: AIRFLOW__WEBSERVER__AUTH_BACKEND
           value: "airflow.contrib.auth.backends.password_auth"
+        - name: AIRFLOW__CORE__FERNET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: fernet-key
         command: ["airflow"]
         args: ["webserver"]
         ports:
         - containerPort: 8080
           name: webserver
+        readinessProbe:
+          httpGet:
+            path: /admin/airflow/login
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
       hostname: webserver
       subdomain: airflow
 ---
@@ -72,6 +83,11 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: postgres-backend
+        - name: AIRFLOW__CORE__FERNET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: fernet-key
         command: ["airflow"]
         args: ["scheduler"]
       hostname: scheduler
@@ -109,6 +125,11 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: postgres-backend
+        - name: AIRFLOW__CORE__FERNET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: fernet-key
         command: ["airflow"]
         args: ["worker"]
       subdomain: airflow
@@ -170,9 +191,24 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: postgres-backend
+        - name: AIRFLOW__CORE__FERNET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: fernet-key
+        - name: AIRFLOW__CELERY__FLOWER_BASIC_AUTH
+          valueFrom:
+            secretKeyRef:
+              name: airflow-flower
+              key: user-password
         command: ["airflow"]
         args: ["flower"]
         ports:
         - containerPort: 5555
           name: redis
+        readinessProbe:
+          tcpSocket:
+            port: 5555
+          initialDelaySeconds: 5
+          periodSeconds: 5
       subdomain: airflow
