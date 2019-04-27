@@ -19,6 +19,13 @@ spec:
   - secretName: jenkins-lfp2-gg
     hosts:
     - jenkins.lfp2.gg
+  - secretName: airflow-lfp2-gg
+    hosts:
+    - airflow.lfp2.gg
+  - secretName: flower-lfp2-gg
+    hosts:
+    - flower.lfp2.gg
+  
   rules:
   - host: guest-portal.lfp2.gg
     http:
@@ -41,3 +48,17 @@ spec:
         backend:
           serviceName: jenkins
           servicePort: 80
+  - host: airflow.lfp2.gg
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: airflow-web
+          servicePort: 8080
+  - host: flower.lfp2.gg
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: airflow-flower
+          servicePort: 5555
