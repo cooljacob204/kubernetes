@@ -21,7 +21,30 @@ RUN /usr/local/bin/install-plugins.sh kubernetes
 # Blueocean
 RUN /usr/local/bin/install-plugins.sh blueocean
 
-# install Maven
+# docker
+
+RUN /usr/local/bin/install-plugins.sh docker-workflow
+
+# install Maven & Docker
 USER root
-RUN apt-get update && apt-get install -y maven
+
+RUN apt-get update \
+    && apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    software-properties-common
+
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add \
+    && add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/debian \
+   $(lsb_release -cs) \
+   stable"
+
+RUN apt-get update \
+    && apt-get install -y docker-ce docker-ce-cli containerd.io \
+    && apt-get install -y maven \
+    && usermod -aG docker jenkins
+
 USER jenkins
