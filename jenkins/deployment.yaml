@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
         - name: jenkins
-          image: cooljacob204/jenkins
+          image: cooljacob204/jenkins:v1
           ports:
             - name: http-port
               containerPort: 8080
