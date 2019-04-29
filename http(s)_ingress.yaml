@@ -25,6 +25,9 @@ spec:
   - secretName: flower-lfp2-gg
     hosts:
     - flower.lfp2.gg
+  - secretName: programmerhumor-lfp2-gg
+    hosts:
+    - programmerhumor.lfp2.gg
   
   rules:
   - host: guest-portal.lfp2.gg
@@ -62,3 +65,10 @@ spec:
         backend:
           serviceName: airflow-flower
           servicePort: 5555
+  - host: programmerhumor.lfp2.gg
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: programmerhumor
+          servicePort: 5000
