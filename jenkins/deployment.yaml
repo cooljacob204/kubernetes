@@ -40,6 +40,9 @@ spec:
       containers:
         - name: jenkins
           image: cooljacob204/jenkins:v1
+          resources:
+            requests:
+              memory: "300Mi"
           ports:
             - name: http-port
               containerPort: 8080
@@ -61,6 +64,9 @@ spec:
             value: tcp://localhost:2375
         - name: dind
           image: docker:18.05-dind
+          resources:
+            requests:
+              memory: "1000Mi"
           securityContext:
             privileged: true
           volumeMounts:
