@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: lfp2-dev
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    service.beta.kubernetes.io/do-loadbalancer-hostname: "videogame-tracker.lfp2.dev"
+spec:
+  tls:
+    - hosts:
+      - videogame-tracker.lfp2.dev
+      secretName: videogame-tracker-tls
+  rules:
+  - host: videogame-tracker.lfp2.dev
+    http:
+      paths:
+      - backend:
+          serviceName: videogame-tracker
+          servicePort: 80
